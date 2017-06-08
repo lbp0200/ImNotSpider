@@ -1,8 +1,6 @@
 import random as rd
 import string
 
-import Devices as dv
-
 net_type = ['4G', 'WIFI']
 
 # 感谢chrome
@@ -69,7 +67,8 @@ class ImNotSpider:
         pass
 
     def wap(self):
-        pass
+        d = rd.choice([self.android, self.iphone])
+        return d()
 
     def pc_linux(self):
         pass
@@ -80,14 +79,41 @@ class ImNotSpider:
     def pc_mac(self):
         pass
 
+    def chrome_pc(self):
+        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
+        return d()
+
+    def chrome_pc_linux(self):
+        return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+
+    def chrome_pc_mac(self):
+        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
+        return d()
+
+    def chrome_pc_windows(self):
+        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
+        return d()
+
     def android(self):
-        pass
+        d = rd.choice([self.wechat_android, self.uc_browser, self.baidu_box_app_android, self.chrome_wap_android])
+        return d()
 
     def iphone(self):
-        pass
+        d = rd.choice([self.wechat_iphone, self.baidu_box_app_iphone, self.chrome_wap_iphone])
+        return d()
 
-    def windows_phone(self):
-        pass
+    def chrome_wap(self):
+        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
+        return d()
+
+    def chrome_wap_android(self):
+        return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Mobile Safari/{Safari}'.format(
+            **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
+               'Chrome': rand_chrome(), 'Safari': rand_safari(), })
+
+    def chrome_wap_iphone(self):
+        return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Version/9.0 Mobile/{Mobile} Safari/{Safari}'.format(
+            **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6), })
 
     def wechat(self, d=-1):
         if d == -1:
@@ -112,6 +138,7 @@ class ImNotSpider:
                'NetType': rd.choice(net_type)})
 
     def uc_browser(self):
+        '''android only'''
         return 'Mozilla/5.0 (Linux; U; Android {androidVersion}; zh-cn; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.100 U3/0.8.0 Mobile Safari/{Safari} AliApp(TB/6.6.4) WindVane/8.0.0 1080X1920 GCanvas/1.4.2.21'.format(
             **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
                'Safari': rand_safari(), })
@@ -119,22 +146,29 @@ class ImNotSpider:
     def baidu_box_app(self, d=-1):
         '''手机百度'''
         if d == -1:
-            d = rd.choice(list(dv.WAP))
+            d = rd.choice([self.baidu_box_app_android, self.baidu_box_app_iphone])
+            return d()
         if d == dv.WAP.Android:
-            return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile Safari/{Safari} T7/7.4 baiduboxapp/8.4 (Baidu; P1 {androidVersion})'.format(
-                **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
-                   'Chrome': rand_chrome(),
-                   'baiduboxapp': '{}.{}'.format(rd.randint(1, 8), rd.randint(0, 9)), 'Safari': rand_safari(), })
+            return self.baidu_box_app_android()
         else:
-            return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Mobile/{Mobile} baiduboxapp/{baiduboxapp}/2.01_4C2%258enohPi/1099a/{key}/1'.format(
-                **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6),
-                   'baiduboxapp': '0_{}.{}.{}.{}_enohpi_{}_{}'.format(rd.randint(1, 20), rd.randint(0, 9),
-                                                                      rd.randint(0, 9), rd.randint(0, 9),
-                                                                      str(rd.randint(999, 9999)).zfill(4),
-                                                                      str(rd.randint(1, 999)).zfill(3)),
-                   'key': rand_key(51),
-                   }
-            )
+            return self.baidu_box_app_iphone()
+
+    def baidu_box_app_android(self):
+        return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile Safari/{Safari} T7/7.4 baiduboxapp/8.4 (Baidu; P1 {androidVersion})'.format(
+            **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
+               'Chrome': rand_chrome(),
+               'baiduboxapp': '{}.{}'.format(rd.randint(1, 8), rd.randint(0, 9)), 'Safari': rand_safari(), })
+
+    def baidu_box_app_iphone(self):
+        return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Mobile/{Mobile} baiduboxapp/{baiduboxapp}/2.01_4C2%258enohPi/1099a/{key}/1'.format(
+            **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6),
+               'baiduboxapp': '0_{}.{}.{}.{}_enohpi_{}_{}'.format(rd.randint(1, 20), rd.randint(0, 9),
+                                                                  rd.randint(0, 9), rd.randint(0, 9),
+                                                                  str(rd.randint(999, 9999)).zfill(4),
+                                                                  str(rd.randint(1, 999)).zfill(3)),
+               'key': rand_key(51),
+               }
+        )
 
 
 if __name__ == 'main':
