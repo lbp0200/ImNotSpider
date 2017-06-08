@@ -3,6 +3,8 @@ import string
 
 import Devices as dv
 
+net_type = ['4G', 'WIFI']
+
 # 感谢chrome
 # https://www.fynas.com提供Android机型、手机浏览器大全
 android_phone_list = [
@@ -56,7 +58,7 @@ def rand_mac_version():
 
 
 def rand_key(length=6):
-    ''.join(rd.choice(string.ascii_uppercase + string.digits) for _ in range(length))
+    return ''.join(rd.choice(string.ascii_uppercase + string.digits) for _ in range(length))
 
 
 class ImNotSpider:
@@ -88,22 +90,26 @@ class ImNotSpider:
         pass
 
     def wechat(self, d=-1):
-        net_type = ['4G', 'WIFI']
         if d == -1:
-            d = rd.choice(list(dv.WAP))
+            d = rd.choice([self.wechat_android, self.wechat_iphone])
+            return d()
         if d == dv.WAP.Android:
-            return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile MQQBrowser/6.2 TBS/{TBS} Safari/{Safari} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
-                **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
-                   'Chrome': rand_chrome(), 'TBS': str(rd.randint(1, 999999)).zfill(6), 'Safari': rand_safari(),
-                   'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
-                   'NetType': rd.choice(net_type)})
+            return self.wechat_android()
         else:
-            return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Mobile/{Mobile} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
-                **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6),
-                   'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
-                   'NetType': rd.choice(net_type)
-                   }
-            )
+            return self.wechat_iphone()
+
+    def wechat_android(self):
+        return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile MQQBrowser/6.2 TBS/{TBS} Safari/{Safari} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
+            **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
+               'Chrome': rand_chrome(), 'TBS': str(rd.randint(1, 999999)).zfill(6), 'Safari': rand_safari(),
+               'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
+               'NetType': rd.choice(net_type)})
+
+    def wechat_iphone(self):
+        return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Mobile/{Mobile} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
+            **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6),
+               'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
+               'NetType': rd.choice(net_type)})
 
     def uc_browser(self):
         return 'Mozilla/5.0 (Linux; U; Android {androidVersion}; zh-cn; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.100 U3/0.8.0 Mobile Safari/{Safari} AliApp(TB/6.6.4) WindVane/8.0.0 1080X1920 GCanvas/1.4.2.21'.format(

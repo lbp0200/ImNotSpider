@@ -6,19 +6,21 @@ from ImNotSpider import ImNotSpider
 class TestWap(unittest.TestCase):
     def test_wechat(self):
         ins = ImNotSpider()
-        print(ins.wechat())
-        self.assertEqual('foo'.upper(), 'FOO')
+        ua = ins.wechat_iphone()
+        print(ua)
+        self.assertTrue(len(ua) > 0)
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
+    def test_uc(self):
+        ins = ImNotSpider()
+        ua = ins.uc_browser()
+        print(ua)
+        self.assertTrue(len(ua) > 0)
 
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+    def test_baidu_browser(self):
+        ins = ImNotSpider()
+        ua = ins.baidu_box_app()
+        print(ua)
+        self.assertTrue(len(ua) > 0)
 
 
 if __name__ == '__main__':
