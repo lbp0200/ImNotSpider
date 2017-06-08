@@ -3,7 +3,7 @@ import unittest
 from ImNotSpider import ImNotSpider
 
 
-class TestWechat(unittest.TestCase):
+class TestWap(unittest.TestCase):
     def test_wechat(self):
         ins = ImNotSpider()
         print(ins.wechat())
