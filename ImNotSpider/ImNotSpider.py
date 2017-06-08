@@ -1,4 +1,7 @@
 import random as rd
+import string
+
+import Devices as dv
 
 # 感谢chrome
 # https://www.fynas.com提供Android机型、手机浏览器大全
@@ -6,12 +9,18 @@ android_phone_list = [
     'Nexus 4 Build/KOT49H', 'Nexus 5 Build/MRA58N', 'Nexus 6 Build/LYZ28E',
     'Nexus 7 Build/JSS15Q', 'Nexus 5 Build/MRA58N', 'Nexus 6 Build/LYZ28E',
     # 三星
-    'SM-G900P Build/LRX21T', 'SM-N900T Build/JSS15J',
-    'GT-N7100 Build/JRO03C', 'GT-I9300 Build/IMM76D',
+    'GT-I9152P Build/JLS36C', 'SM-E7000 Build/KTU84P', 'SM-G9200 Build/LMY47X',
+    'GT-I9128I Build/JDQ39', 'GT-I9500 Build/JDQ39', 'SM-N9008V Build/LRX21V',
+    'SM-N7506V Build/JLS36C', 'SM-G3609 Build/KTU84P', 'SCH-W2013 Build/IMM76D',
     # LG
     'LGMS323 Build/KOT49I.MS32310c',
     # OPPO/VIVO
-    'OPPO A59m Build/LMY47I',
+    'OPPO R7 Build/KTU84P', 'OPPO R7t Build/KTU84P', 'R7007 Build/JLS36C', 'R2017 Build/JLS36C', 'R6007 Build/JLS36C',
+    '1105 Build/KTU84P', 'N5117 Build/JLS36C', 'M571C Build/LMY47D', 'R7Plus Build/LRX21M', 'X909T Build/JDQ39',
+    'A31t Build/KTU84P', 'A31 Build/KTU84P', 'R8207 Build/KTU84P', 'R833T Build/JDQ39',
+
+    'vivo Y13iL Build/KTU84P', 'vivo X5Pro D Build/LRX21M', 'vivo Y22L Build/JLS36C', 'vivo Y13T Build/JDQ39',
+    'vivo X5Max Build/KTU84P', 'ONE A2001 Build/LMY48W',
     # 华为
     'VIE-AL10 Build/HUAWEIVIE-AL10; wv', 'HUAWEI NXT-AL10 Build/HUAWEINXT-AL10', 'HUAWEI NXT-CL00 Build/HUAWEINXT-CL00',
     'Che2-TL00M Build/HonorChe2-TL00M; wv', 'FRD-AL10 Build/HUAWEIFRD-AL10', 'HUAWEI RIO-AL00 Build/HuaweiRIO-AL00',
@@ -19,10 +28,10 @@ android_phone_list = [
     'HUAWEI MT7-CL00 Build/HuaweiMT7-CL00; wv', 'PLE-703L Build/HuaweiMediaPad; wv', 'PLK-TL01H Build/HONORPLK-TL01H',
     'EVA-AL10 Build/HUAWEIEVA-AL10',
     # 小米
-    'MI MAX Build/MMB29M',
+    'MI MAX Build/MMB29M', 'MI 5 Build/NRD90M', 'MI NOTE LTE Build/KTU84P', 'MI 3C Build/MMB29M', 'MI 5s Build/MXB48T',
+    'MI NOTE LTE Build/MMB29M', 'MI 2S Build/JRO03L', 'MI 5 Build/MXB48T', 'MI NOTE Pro Build/LRX22G',
     # 联想ZUK
     'Z2 Plus Build/N2G47O; wv',
-
 ]
 
 
@@ -31,8 +40,7 @@ def rand_android_version():
 
 
 def rand_android_phone():
-    i = rd.randrange(0, len(android_phone_list))
-    return android_phone_list[i]
+    return rd.choice(android_phone_list)
 
 
 def rand_chrome():
@@ -41,6 +49,14 @@ def rand_chrome():
 
 def rand_safari():
     return '{0}.{1}'.format(rd.randint(100, 999), rd.randint(0, 99))
+
+
+def rand_mac_version():
+    return '{}_{}_{}'.format(rd.randint(6, 12), rd.randint(1, 9), rd.randint(1, 9))
+
+
+def rand_key(length=6):
+    ''.join(rd.choice(string.ascii_uppercase + string.digits) for _ in range(length))
 
 
 class ImNotSpider:
@@ -71,13 +87,48 @@ class ImNotSpider:
     def windows_phone(self):
         pass
 
-    def wechat(self):
-        # Mozilla/5.0 (Linux; Android 7.1.2; Z2 Plus Build/N2G47O; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/53.0.2785.49 Mobile MQQBrowser/6.2 TBS/043305 Safari/537.36 MicroMessenger/6.5.8.1060 NetType/WIFI Language/zh_CN
-        safari = rand_safari()
-        return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{AppleWebKit} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile MQQBrowser/6.2 TBS/{TBS} Safari/{Safari} MicroMessenger/{MicroMessenger} NetType/WIFI Language/zh_CN'.format(
-            **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(), 'AppleWebKit': safari,
-               'Chrome': rand_chrome(), 'TBS': str(rd.randint(1, 999999)).zfill(6), 'Safari': safari,
-               'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999))})
+    def wechat(self, d=-1):
+        net_type = ['4G', 'WIFI']
+        if d == -1:
+            d = rd.choice(list(dv.WAP))
+        if d == dv.WAP.Android:
+            return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile MQQBrowser/6.2 TBS/{TBS} Safari/{Safari} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
+                **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
+                   'Chrome': rand_chrome(), 'TBS': str(rd.randint(1, 999999)).zfill(6), 'Safari': rand_safari(),
+                   'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
+                   'NetType': rd.choice(net_type)})
+        else:
+            return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Mobile/{Mobile} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
+                **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6),
+                   'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
+                   'NetType': rd.choice(net_type)
+                   }
+            )
+
+    def uc_browser(self):
+        return 'Mozilla/5.0 (Linux; U; Android {androidVersion}; zh-cn; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.100 U3/0.8.0 Mobile Safari/{Safari} AliApp(TB/6.6.4) WindVane/8.0.0 1080X1920 GCanvas/1.4.2.21'.format(
+            **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
+               'Safari': rand_safari(), })
+
+    def baidu_box_app(self, d=-1):
+        '''手机百度'''
+        if d == -1:
+            d = rd.choice(list(dv.WAP))
+        if d == dv.WAP.Android:
+            return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile Safari/{Safari} T7/7.4 baiduboxapp/8.4 (Baidu; P1 {androidVersion})'.format(
+                **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
+                   'Chrome': rand_chrome(),
+                   'baiduboxapp': '{}.{}'.format(rd.randint(1, 8), rd.randint(0, 9)), 'Safari': rand_safari(), })
+        else:
+            return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Mobile/{Mobile} baiduboxapp/{baiduboxapp}/2.01_4C2%258enohPi/1099a/{key}/1'.format(
+                **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6),
+                   'baiduboxapp': '0_{}.{}.{}.{}_enohpi_{}_{}'.format(rd.randint(1, 20), rd.randint(0, 9),
+                                                                      rd.randint(0, 9), rd.randint(0, 9),
+                                                                      str(rd.randint(999, 9999)).zfill(4),
+                                                                      str(rd.randint(1, 999)).zfill(3)),
+                   'key': rand_key(51),
+                   }
+            )
 
 
 if __name__ == 'main':
