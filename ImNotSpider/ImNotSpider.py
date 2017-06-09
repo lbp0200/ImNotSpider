@@ -132,7 +132,8 @@ class ImNotSpider:
             **{'WindowsNT': rand_windows_version(), 'Firefox': rand_firefox(), })
 
     def android(self):
-        d = rd.choice([self.wechat_android, self.uc_browser_android, self.baidu_box_app_android, self.chrome_wap_android])
+        d = rd.choice(
+            [self.wechat_android, self.uc_browser_android, self.baidu_box_app_android, self.chrome_wap_android])
         return d()
 
     def iphone(self):
@@ -208,5 +209,6 @@ class ImNotSpider:
         )
 
 
-if __name__ == 'main':
-    pass
+if __name__ == '__main__':
+    ins = ImNotSpider()
+    print(ins.random())
