@@ -153,14 +153,8 @@ class ImNotSpider:
         return 'Mozilla/5.0 (iPhone; CPU iPhone OS {mac_version} like Mac OS X) AppleWebKit/{Safari} (KHTML, like Gecko) Version/9.0 Mobile/{Mobile} Safari/{Safari}'.format(
             **{'mac_version': rand_mac_version(), 'Safari': rand_safari(), 'Mobile': rand_key(6), })
 
-    def wechat(self, d=-1):
-        if d == -1:
-            d = rd.choice([self.wechat_android, self.wechat_iphone])
-            return d()
-        if d == dv.WAP.Android:
-            return self.wechat_android()
-        else:
-            return self.wechat_iphone()
+    def wechat(self):
+        return rd.choice([self.wechat_android, self.wechat_iphone])
 
     def wechat_android(self):
         return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile MQQBrowser/6.2 TBS/{TBS} Safari/{Safari} MicroMessenger/{MicroMessenger} NetType/{NetType} Language/zh_CN'.format(
@@ -181,15 +175,9 @@ class ImNotSpider:
             **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
                'Safari': rand_safari(), })
 
-    def baidu_box_app(self, d=-1):
+    def baidu_box_app(self):
         '''手机百度'''
-        if d == -1:
-            d = rd.choice([self.baidu_box_app_android, self.baidu_box_app_iphone])
-            return d()
-        if d == dv.WAP.Android:
-            return self.baidu_box_app_android()
-        else:
-            return self.baidu_box_app_iphone()
+        return rd.choice([self.baidu_box_app_android, self.baidu_box_app_iphone])
 
     def baidu_box_app_android(self):
         return 'Mozilla/5.0 (Linux; Android {androidVersion}; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 Chrome/{Chrome} Mobile Safari/{Safari} T7/7.4 baiduboxapp/8.4 (Baidu; P1 {androidVersion})'.format(
