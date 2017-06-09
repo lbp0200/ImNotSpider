@@ -1,6 +1,6 @@
 # ImNotSpider浏览器User Agent生成器
 
-##demo
+## demo
 Python3.5下测试通过
 ```python
 from ImNotSpider import ImNotSpider as imsp
@@ -35,10 +35,11 @@ ua = ins.baidu_box_app_android()
 ua = ins.baidu_box_app_iphone()
 ```
 
-###其他语言（Java、PHP等）
+### 其他语言（Java、PHP等）
+
 使用https://github.com/lbp0200/ImNotSpiderWebAPI，搭建一个Web接口，调用Web接口即可
 
-##安装
+## 安装
 ```bash
 pip install git+https://github.com/lbp0200/ImNotSpiderWebAPI.git
 ```
