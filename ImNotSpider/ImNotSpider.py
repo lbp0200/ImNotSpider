@@ -60,6 +60,10 @@ def rand_key(length=6):
     return ''.join(rd.choice(string.ascii_uppercase + string.digits) for _ in range(length))
 
 
+def rand_firefox():
+    return '{}.0'.format(rd.randint(20, 60))
+
+
 class ImNotSpider:
     def random(self):
         d = rd.choice([self.pc, self.wap])
@@ -74,15 +78,15 @@ class ImNotSpider:
         return d()
 
     def pc_linux(self):
-        d = rd.choice([self.chrome_pc_linux])
+        d = rd.choice([self.chrome_pc_linux, self.firefox_pc_linux])
         return d()
 
     def pc_windows(self):
-        d = rd.choice([self.chrome_pc_windows])
+        d = rd.choice([self.chrome_pc_windows, self.firefox_pc_windows])
         return d()
 
     def pc_mac(self):
-        d = rd.choice([self.chrome_pc_mac])
+        d = rd.choice([self.chrome_pc_mac, self.firefox_pc_mac])
         return d()
 
     def chrome_pc(self):
@@ -100,6 +104,22 @@ class ImNotSpider:
     def chrome_pc_windows(self):
         return 'Mozilla/5.0 (Windows NT 6.{WindowsNT}; WOW64) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Safari/{Safari}'.format(
             **{'WindowsNT': rd.randint(1, 9), 'Chrome': rand_chrome(), 'Safari': rand_safari(), })
+
+    def firefox_pc(self):
+        d = rd.choice([self.firefox_pc_linux, self.firefox_pc_mac, self.firefox_pc_windows])
+        return d()
+
+    def firefox_pc_linux(self):
+        return 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:{Firefox}) Gecko/20100101 Firefox/{Firefox}'.format(
+            **{'Firefox': rand_firefox(), })
+
+    def firefox_pc_mac(self):
+        return 'Mozilla/5.0 (Macintosh; Intel Mac OS X {mac_version}; rv:{Firefox}) Gecko/20100101 Firefox/{Firefox}'.format(
+            **{'mac_version': rand_mac_version(), 'Firefox': rand_firefox(), })
+
+    def firefox_pc_windows(self):
+        return 'Mozilla/5.0 (Windows NT 6.{WindowsNT}; WOW64; rv:{Firefox}) Gecko/20100101 Firefox/{Firefox}'.format(
+            **{'WindowsNT': rd.randint(1, 9), 'Firefox': rand_firefox(), })
 
     def android(self):
         d = rd.choice([self.wechat_android, self.uc_browser, self.baidu_box_app_android, self.chrome_wap_android])
