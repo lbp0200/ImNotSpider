@@ -56,6 +56,10 @@ def rand_mac_version():
     return '{}_{}_{}'.format(rd.randint(6, 12), rd.randint(1, 9), rd.randint(1, 9))
 
 
+def rand_windows_version():
+    return '{}.{}'.format(rd.randint(6, 10), rd.randint(0, 9))
+
+
 def rand_key(length=6):
     return ''.join(rd.choice(string.ascii_uppercase + string.digits) for _ in range(length))
 
@@ -82,12 +86,18 @@ class ImNotSpider:
         return d()
 
     def pc_windows(self):
-        d = rd.choice([self.chrome_pc_windows, self.firefox_pc_windows])
+        d = rd.choice([self.chrome_pc_windows, self.firefox_pc_windows, self.internet_explorer])
         return d()
 
     def pc_mac(self):
         d = rd.choice([self.chrome_pc_mac, self.firefox_pc_mac])
         return d()
+
+    def internet_explorer(self):
+        return rd.choice(['Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv 11.0) like Gecko',
+                          'Mozilla/5.0 (compatible; WOW64; MSIE 10.0; Windows NT 6.2)',
+                          'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
+                          'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)', ])
 
     def chrome_pc(self):
         d = rd.choice([self.chrome_pc_linux, self.chrome_pc_mac, self.chrome_pc_windows])
@@ -102,8 +112,8 @@ class ImNotSpider:
             **{'mac_version': rand_mac_version(), 'Chrome': rand_chrome(), 'Safari': rand_safari(), })
 
     def chrome_pc_windows(self):
-        return 'Mozilla/5.0 (Windows NT 6.{WindowsNT}; WOW64) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Safari/{Safari}'.format(
-            **{'WindowsNT': rd.randint(1, 9), 'Chrome': rand_chrome(), 'Safari': rand_safari(), })
+        return 'Mozilla/5.0 (Windows NT {WindowsNT}; WOW64) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Safari/{Safari}'.format(
+            **{'WindowsNT': rand_windows_version(), 'Chrome': rand_chrome(), 'Safari': rand_safari(), })
 
     def firefox_pc(self):
         d = rd.choice([self.firefox_pc_linux, self.firefox_pc_mac, self.firefox_pc_windows])
@@ -118,8 +128,8 @@ class ImNotSpider:
             **{'mac_version': rand_mac_version(), 'Firefox': rand_firefox(), })
 
     def firefox_pc_windows(self):
-        return 'Mozilla/5.0 (Windows NT 6.{WindowsNT}; WOW64; rv:{Firefox}) Gecko/20100101 Firefox/{Firefox}'.format(
-            **{'WindowsNT': rd.randint(1, 9), 'Firefox': rand_firefox(), })
+        return 'Mozilla/5.0 (Windows NT {WindowsNT}; WOW64; rv:{Firefox}) Gecko/20100101 Firefox/{Firefox}'.format(
+            **{'WindowsNT': rand_windows_version(), 'Firefox': rand_firefox(), })
 
     def android(self):
         d = rd.choice([self.wechat_android, self.uc_browser, self.baidu_box_app_android, self.chrome_wap_android])
