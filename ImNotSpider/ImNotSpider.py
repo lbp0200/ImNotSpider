@@ -62,23 +62,28 @@ def rand_key(length=6):
 
 class ImNotSpider:
     def random(self):
-        pass
+        d = rd.choice([self.pc, self.wap])
+        return d()
 
     def pc(self):
-        pass
+        d = rd.choice([self.pc_linux, self.pc_windows, self.pc_mac])
+        return d()
 
     def wap(self):
         d = rd.choice([self.android, self.iphone])
         return d()
 
     def pc_linux(self):
-        pass
+        d = rd.choice([self.chrome_pc_linux])
+        return d()
 
     def pc_windows(self):
-        pass
+        d = rd.choice([self.chrome_pc_windows])
+        return d()
 
     def pc_mac(self):
-        pass
+        d = rd.choice([self.chrome_pc_mac])
+        return d()
 
     def chrome_pc(self):
         d = rd.choice([self.chrome_pc_linux, self.chrome_pc_mac, self.chrome_pc_windows])
