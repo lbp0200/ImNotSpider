@@ -132,7 +132,7 @@ class ImNotSpider:
             **{'WindowsNT': rand_windows_version(), 'Firefox': rand_firefox(), })
 
     def android(self):
-        d = rd.choice([self.wechat_android, self.uc_browser, self.baidu_box_app_android, self.chrome_wap_android])
+        d = rd.choice([self.wechat_android, self.uc_browser_android, self.baidu_box_app_android, self.chrome_wap_android])
         return d()
 
     def iphone(self):
@@ -174,7 +174,7 @@ class ImNotSpider:
                'MicroMessenger': '6.{0}.{1}.{2}'.format(rd.randint(0, 9), rd.randint(0, 9), rd.randint(1, 9999)),
                'NetType': rd.choice(net_type)})
 
-    def uc_browser(self):
+    def uc_browser_android(self):
         '''android only'''
         return 'Mozilla/5.0 (Linux; U; Android {androidVersion}; zh-cn; {androidPhone}) AppleWebKit/{Safari} (KHTML, like Gecko) Version/4.0 UCBrowser/1.0.0.100 U3/0.8.0 Mobile Safari/{Safari} AliApp(TB/6.6.4) WindVane/8.0.0 1080X1920 GCanvas/1.4.2.21'.format(
             **{'androidVersion': rand_android_version(), 'androidPhone': rand_android_phone(),
