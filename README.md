@@ -37,7 +37,7 @@ ua = ins.baidu_box_app_iphone()
 
 ### 其他语言（Java、PHP等）
 
-使用(https://github.com/lbp0200/ImNotSpiderWebAPI)，搭建一个Web接口，调用Web接口即可
+使用[https://github.com/lbp0200/ImNotSpiderWebAPI](https://github.com/lbp0200/ImNotSpiderWebAPI)，搭建一个Web接口，调用Web接口即可
 
 ## 安装
 ```bash
