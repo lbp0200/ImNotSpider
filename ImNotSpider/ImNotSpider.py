@@ -1,3 +1,4 @@
+# encoding=utf8
 import random as rd
 import string
 
@@ -80,19 +81,20 @@ class ImNotSpider:
         pass
 
     def chrome_pc(self):
-        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
+        d = rd.choice([self.chrome_pc_linux, self.chrome_pc_mac, self.chrome_pc_windows])
         return d()
 
     def chrome_pc_linux(self):
-        return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+        return 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Safari/{Safari}'.format(
+            **{'Chrome': rand_chrome(), 'Safari': rand_safari(), })
 
     def chrome_pc_mac(self):
-        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
-        return d()
+        return 'Mozilla/5.0 (Macintosh; Intel Mac OS X {mac_version}) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Safari/{Safari}'.format(
+            **{'mac_version': rand_mac_version(), 'Chrome': rand_chrome(), 'Safari': rand_safari(), })
 
     def chrome_pc_windows(self):
-        d = rd.choice([self.chrome_wap_android, self.chrome_wap_iphone])
-        return d()
+        return 'Mozilla/5.0 (Windows NT 6.{WindowsNT}; WOW64) AppleWebKit/{Safari} (KHTML, like Gecko) Chrome/{Chrome} Safari/{Safari}'.format(
+            **{'WindowsNT': rd.randint(1, 9), 'Chrome': rand_chrome(), 'Safari': rand_safari(), })
 
     def android(self):
         d = rd.choice([self.wechat_android, self.uc_browser, self.baidu_box_app_android, self.chrome_wap_android])
